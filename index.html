@@ -83,7 +83,7 @@ overflow: hidden;
             </button>
           </div>
           <div class="modal-body text-center">
-            <p>醫院管理局2019 年度夜間、星期日及公眾假期普通科門診服務</p>
+            <p>夜間、假日、廿四小時門診地圖</p>
             <p>&nbsp;</p>
             <ul class="list-unstyled list-inline">
               <!--<li class="list-inline-item"></li><img src="pin-247.png" class="inline_img">24小時開放</li>-->
@@ -103,18 +103,18 @@ overflow: hidden;
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h6 class="modal-title" id="attributionModal">醫院管理局2019 年度夜間、星期日及公眾假期普通科門診地圖</h5>
+            <h6 class="modal-title" id="attributionModal">夜間、星期日、公眾假期、廿四小時門診地圖</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <div class="modal-body">
+          <!--<div class="modal-body">
             <h5>資料來源</h5>
             <ul class="list-unstyled">
               <li><a href="http://www.ha.org.hk/haho/ho/hesd/gopc2019holiday_chi.pdf" target="_blank">醫院管理局 （PDF檔案）</a></li>
             </ul>
             <p>最後更新日期：2018-12-14</p>
-          </div>
+          </div>-->
         </div>
       </div>
     </div>
@@ -125,7 +125,7 @@ overflow: hidden;
       <div class="modal-dialog nav_modal" role="document">
         <div class="modal-content nav_modal">
           <div class="modal-header">
-            <h5 class="modal-title" id="navModal">夜間、星期日及公眾假期門診</h5>
+            <h5 class="modal-title" id="navModal">夜間、假日、廿四小時門診&emsp;&emsp;</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -148,17 +148,26 @@ overflow: hidden;
             <ul class="list-group list-group-flush">
               <li class="list-group-item">
                 <!--<i class="fas fa-caret-right"></i>-->
-                <a class="list-group-item-action" href="#" onclick="showAllClinic();">夜間、星期日及公眾假期普通科門診</a>
+                <a class="list-group-item-action" href="#" onclick="showAllClinic();">顯示所有</a>
               </li>
               <li class="list-group-item">
-                <a class="list-group-item-action" href="#" onclick="showPhClinic();">星期日及公眾假期普通科門診</a>
+                <a class="list-group-item-action" href="#" onclick="showPhClinic();">假日門診</a>
+              </li>
+              <li class="list-group-item">
+                <a class="list-group-item-action" href="#" onclick="show24hClinic();">24小時</a>
+              </li>
+              <li class="list-group-item">
+                <a class="list-group-item-action" href="#" onclick="showPublicClinic();">公立門診</a>
+              </li>
+              <li class="list-group-item">
+                <a class="list-group-item-action" href="#" onclick="showPrivateClinic();">私家門診</a>
               </li>
               <li class="list-group-item">
                 <a class="list-group-item-action" href="#" onclick="showAvailableClinic();">只顯示現在開放診所</a>
               </li>
-              <li class="list-group-item">
+              <!--<li class="list-group-item">
                 <a class="list-group-item-action attribution" href="#" data-toggle="modal" data-target="#attributionModal">資料來源</a>
-              </li>
+              </li>-->
             </ul>
           </div>
           <div class="modal-footer">OpenHealthHK</div>
@@ -172,7 +181,7 @@ overflow: hidden;
         <!--<a class="navbar-brand" href="#">-->
         <div class="icon baseline">
         </div>
-        <span class="navbar-name">夜間、星期日及公眾假期普通科門診地圖</span>
+        <span class="navbar-name">夜間、假日、廿四小時門診地圖</span>
         </a>
       </div>
       <button class="navbar-toggler animated slideInRight faster" type="button" data-toggle="modal" data-target="#navModal"
@@ -365,6 +374,75 @@ overflow: hidden;
                 break;
             }
             if (feature["properties"]["status"] === "available") {
+              return L.marker(latlng, options);
+            } else {
+              return null;
+            }
+          } // end of pointToLayer);
+        });
+
+        publicClinicLayer = L.geoJSON(clinics, {
+          onEachFeature: onEachFeature,
+          pointToLayer: function (feature, latlng) {
+            let options = {};
+            switch (feature["properties"]["status"]) {
+              case 'always_available':
+                options.icon = red;
+                break;
+              case 'available':
+                options.icon = green; // open
+                break;
+              case 'closed':
+                options.icon = grey;
+                break;
+            }
+            if (feature["properties"]["nature"] === "公立") {
+              return L.marker(latlng, options);
+            } else {
+              return null;
+            }
+          } // end of pointToLayer);
+        });
+
+        privateClinicLayer = L.geoJSON(clinics, {
+          onEachFeature: onEachFeature,
+          pointToLayer: function (feature, latlng) {
+            let options = {};
+            switch (feature["properties"]["status"]) {
+              case 'always_available':
+                options.icon = red;
+                break;
+              case 'available':
+                options.icon = green; // open
+                break;
+              case 'closed':
+                options.icon = grey;
+                break;
+            }
+            if (feature["properties"]["nature"] === "私家") {
+              return L.marker(latlng, options);
+            } else {
+              return null;
+            }
+          } // end of pointToLayer);
+        });
+
+        h24ClinicLayer = L.geoJSON(clinics, {
+          onEachFeature: onEachFeature,
+          pointToLayer: function (feature, latlng) {
+            let options = {};
+            switch (feature["properties"]["status"]) {
+              case 'always_available':
+                options.icon = red;
+                break;
+              case 'available':
+                options.icon = green; // open
+                break;
+              case 'closed':
+                options.icon = grey;
+                break;
+            }
+            if (feature["properties"]["is24hours"]) {
               return L.marker(latlng, options);
             } else {
               return null;
@@ -719,6 +797,10 @@ ${(prop.weekday_text) ? `<ul class="collapse" id="opening_hours">${prop.weekday_
           clinicMap.addLayer(clinicLayer);
           currentLayer = clinicLayer;
           zoomendHandler();
+          var sideMenuClose = document.querySelectorAll('#navModal .close');
+          sideMenuClose.forEach(s => {
+            s.click();
+          });
         }
       }
 
@@ -728,6 +810,10 @@ ${(prop.weekday_text) ? `<ul class="collapse" id="opening_hours">${prop.weekday_
           clinicMap.addLayer(phClinicLayer);
           currentLayer = phClinicLayer;
           zoomendHandler();
+          var sideMenuClose = document.querySelectorAll('#navModal .close');
+          sideMenuClose.forEach(s => {
+            s.click();
+          });
         }
       }
 
@@ -737,6 +823,49 @@ ${(prop.weekday_text) ? `<ul class="collapse" id="opening_hours">${prop.weekday_
           clinicMap.addLayer(availableClinicLayer);
           currentLayer = availableClinicLayer;
           zoomendHandler();
+          var sideMenuClose = document.querySelectorAll('#navModal .close');
+          sideMenuClose.forEach(s => {
+            s.click();
+          });
+        }
+      }
+
+      function showPublicClinic() {
+        if (currentLayer != publicClinicLayer) {
+          clinicMap.removeLayer(currentLayer);
+          clinicMap.addLayer(publicClinicLayer);
+          currentLayer = publicClinicLayer;
+          zoomendHandler();
+          var sideMenuClose = document.querySelectorAll('#navModal .close');
+          sideMenuClose.forEach(s => {
+            s.click();
+          });
+        }
+      }
+
+      function showPrivateClinic() {
+        if (currentLayer != privateClinicLayer) {
+          clinicMap.removeLayer(currentLayer);
+          clinicMap.addLayer(privateClinicLayer);
+          currentLayer = privateClinicLayer;
+          zoomendHandler();
+          var sideMenuClose = document.querySelectorAll('#navModal .close');
+          sideMenuClose.forEach(s => {
+            s.click();
+          });
+        }
+      }
+
+      function show24hClinic() {
+        if (currentLayer != h24ClinicLayer) {
+          clinicMap.removeLayer(currentLayer);
+          clinicMap.addLayer(h24ClinicLayer);
+          currentLayer = h24ClinicLayer;
+          zoomendHandler();
+          var sideMenuClose = document.querySelectorAll('#navModal .close');
+          sideMenuClose.forEach(s => {
+            s.click();
+          });
         }
       }
     </script>
