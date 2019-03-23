@@ -791,17 +791,21 @@ ${(prop.weekday_text) ? `<ul class="collapse" id="opening_hours">${prop.weekday_
         });
       }
 
+      function closeSideBar() {
+        var sideMenuClose = document.querySelectorAll('#navModal .close');
+        sideMenuClose.forEach(s => {
+          s.click();
+        });
+      }
+
       function showAllClinic() {
         if (currentLayer != clinicLayer) {
           clinicMap.removeLayer(currentLayer);
           clinicMap.addLayer(clinicLayer);
           currentLayer = clinicLayer;
           zoomendHandler();
-          var sideMenuClose = document.querySelectorAll('#navModal .close');
-          sideMenuClose.forEach(s => {
-            s.click();
-          });
         }
+        closeSideBar();
       }
 
       function showPhClinic() {
@@ -810,11 +814,8 @@ ${(prop.weekday_text) ? `<ul class="collapse" id="opening_hours">${prop.weekday_
           clinicMap.addLayer(phClinicLayer);
           currentLayer = phClinicLayer;
           zoomendHandler();
-          var sideMenuClose = document.querySelectorAll('#navModal .close');
-          sideMenuClose.forEach(s => {
-            s.click();
-          });
         }
+        closeSideBar();
       }
 
       function showAvailableClinic() {
@@ -823,11 +824,8 @@ ${(prop.weekday_text) ? `<ul class="collapse" id="opening_hours">${prop.weekday_
           clinicMap.addLayer(availableClinicLayer);
           currentLayer = availableClinicLayer;
           zoomendHandler();
-          var sideMenuClose = document.querySelectorAll('#navModal .close');
-          sideMenuClose.forEach(s => {
-            s.click();
-          });
         }
+        closeSideBar();
       }
 
       function showPublicClinic() {
@@ -836,11 +834,8 @@ ${(prop.weekday_text) ? `<ul class="collapse" id="opening_hours">${prop.weekday_
           clinicMap.addLayer(publicClinicLayer);
           currentLayer = publicClinicLayer;
           zoomendHandler();
-          var sideMenuClose = document.querySelectorAll('#navModal .close');
-          sideMenuClose.forEach(s => {
-            s.click();
-          });
         }
+        closeSideBar();
       }
 
       function showPrivateClinic() {
@@ -849,11 +844,8 @@ ${(prop.weekday_text) ? `<ul class="collapse" id="opening_hours">${prop.weekday_
           clinicMap.addLayer(privateClinicLayer);
           currentLayer = privateClinicLayer;
           zoomendHandler();
-          var sideMenuClose = document.querySelectorAll('#navModal .close');
-          sideMenuClose.forEach(s => {
-            s.click();
-          });
         }
+        closeSideBar();
       }
 
       function show24hClinic() {
@@ -862,11 +854,8 @@ ${(prop.weekday_text) ? `<ul class="collapse" id="opening_hours">${prop.weekday_
           clinicMap.addLayer(h24ClinicLayer);
           currentLayer = h24ClinicLayer;
           zoomendHandler();
-          var sideMenuClose = document.querySelectorAll('#navModal .close');
-          sideMenuClose.forEach(s => {
-            s.click();
-          });
         }
+        closeSideBar();
       }
     </script>
   </main>
